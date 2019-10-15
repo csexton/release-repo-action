@@ -1,0 +1,9 @@
+{
+  "private": true,
+  "license": "MIT",
+  "dependencies": {
+    "@actions/core": "^1.1.0",
+    "@actions/github": "^1.1.0",
+    "simple-git": "^1.126.0"
+  }
+}

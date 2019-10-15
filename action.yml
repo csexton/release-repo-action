@@ -1,15 +1,21 @@
 name: 'Hello World'
 description: 'Greet someone and record the time'
 inputs:
-  who-to-greet:  # id of input
-    description: 'Who to greet'
+  repo:
+    description: The target external repo to publish to
+    required: false
+  files:
+    description: A new line seperated list of files add to the external repo
+    required: false
+  personal-token:
+    description: The GitHub token used access the external repo
     required: true
-    default: 'World'
 outputs:
   time: # id of output
     description: 'The time we greeted you'
+outputs:
+  url:
+    description: 'URL to the Release HTML Page'
 runs:
-  using: 'docker'
-  image: 'Dockerfile'
-  args:
-    - ${{ inputs.who-to-greet }}
+  using: 'node12'
+  main: 'main.js'
