@@ -1,5 +1,5 @@
-name: 'Hello World'
-description: 'Greet someone and record the time'
+name: 'Release Repo'
+description: 'Publish a release to an external release repo'
 inputs:
   repo:
     description: The target external repo to publish to
@@ -10,9 +10,6 @@ inputs:
   personal-token:
     description: The GitHub token used access the external repo
     required: true
-outputs:
-  time: # id of output
-    description: 'The time we greeted you'
 outputs:
   url:
     description: 'URL to the Release HTML Page'
