@@ -1,4 +1,5 @@
 const core = require('@actions/core')
+const fs = require('fs');
 //const {GitHub, context} = require('@actions/github')
 
 process.on('unhandledRejection', handleError);
@@ -35,5 +36,10 @@ async function main() {
 
   console.log(repo)
   console.dir(files)
+
+
+  fs.readdirSync(".").forEach(file => {
+    console.log(file);
+  });
 }
 
