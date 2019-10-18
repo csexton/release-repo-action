@@ -37,6 +37,7 @@ async function main() {
   console.log(repo)
   console.dir(files)
 
+  console.log("Reading some files:")
 
   fs.readdirSync(".").forEach(file => {
     console.log(file);
