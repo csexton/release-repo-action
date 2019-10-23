@@ -11,8 +11,8 @@ exports.commitTagAndPush = async function(path, tag) {
   const message = `Release ${tag}`;
   console.log(`Commit, tag, and push to release repo: ${message}`);
 
-  await repo.addConfig("user.email", "github@radiusnetworks.com")
-  await repo.addConfig("user.name", "RadBot")
+  await repo.addConfig("user.email", "github@radiusnetworks.com");
+  await repo.addConfig("user.name", "RadBot");
 
   await repo.add(['.']);
   await repo.commit(message);
