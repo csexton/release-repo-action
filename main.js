@@ -39,8 +39,11 @@ async function main() {
     tag_name: release.tag_name,
     prerelease: release.prerelease,
   });
+  console.log("* response *********************************************************************");
+  console.dir(response);
   var newRelease = response.data
 
+  console.log("* new release ******************************************************************");
   console.dir(newRelease);
   core.setOutput('html_url', newRelease.html_url);
   core.setOutput('url', newRelease.html_url);
