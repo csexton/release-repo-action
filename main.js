@@ -13,6 +13,9 @@ async function main() {
   const assetFileName = core.getInput('file');
   const repoPath = path.resolve('./release-repo');
 
+  //var release = await octokit.repos.getReleaseByTag({ owner: "RadiusNetworks", repo: "iris-ios", tag: "sdk-v0.2" })
+  //context.payload.release = release.data
+
   if (! context.payload.release) {
     core.warning("Not running action as a release, skipping.");
     return;
@@ -20,25 +23,27 @@ async function main() {
 
   var release = context.payload.release;
 
+
   var [owner, repo] = target.split('/');
-  var tag_name = release.data.tag_name;
+  var tag_name = release.tag_name;
 
   await releaseRepo.clone(repoPath, target, personalToken)
-  await releaseAsset.downloadAndExtract(assetFileName, release.data.assets, token, repoPath)
+  await releaseAsset.downloadAndExtract(assetFileName, release.assets, token, repoPath)
   await releaseRepo.commitTagAndPush(repoPath, tag_name);
 
-  var newRelease = await octokit.repos.createRelease({
+  var response = await octokit.repos.createRelease({
     owner: owner,
     repo: repo,
-    body: release.data.body,
-    name: release.data.name,
-    tag_name: release.data.tag_name,
-    prerelease: release.data.prerelease,
+    body: release.body,
+    name: release.name,
+    tag_name: release.tag_name,
+    prerelease: release.prerelease,
   });
+  var newRelease = response.data
 
   console.dir(newRelease);
-  core.setOutput('html_url', newRelease.data.html_url);
-  core.setOutput('url', newRelease.data.html_url);
+  core.setOutput('html_url', newRelease.html_url);
+  core.setOutput('url', newRelease.html_url);
 }
 
 main().catch(error.handle);
