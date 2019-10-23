@@ -3,10 +3,10 @@ description: 'Publish a release to an external release repo'
 inputs:
   repo:
     description: The target external repo to publish to
-    required: false
-  files:
-    description: A new line seperated list of files add to the external repo
-    required: false
+    required: true
+  file:
+    description: The zip file to extract into the extract repo
+    required: true
   personal-token:
     description: The GitHub token used access the external repo
     required: true
