@@ -31,17 +31,15 @@ async function main() {
   await releaseAsset.downloadAndExtract(assetFileName, release.assets, token, repoPath)
   await releaseRepo.commitTagAndPush(repoPath, tag_name);
 
-  var createBody = {
+  const octokitTarget = new GitHub(personalToken)
+  var response = await octokitTarget.repos.createRelease({
     owner: owner,
     repo: repo,
     body: release.body,
     name: release.name,
     tag_name: release.tag_name,
     prerelease: release.prerelease,
-  };
-  console.log("* body *************************************************************************");
-  console.dir(createBody);
-  var response = await octokit.repos.createRelease(createBody);
+  });
   console.log("* response *********************************************************************");
   console.dir(response);
   var newRelease = response.data
