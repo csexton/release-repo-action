@@ -6,14 +6,13 @@ exports.clone = async function(path, repo, token) {
   await git('.').clone(repoURL, path, ['--depth=1'])
 }
 
-exports.commitTagAndPush = async function(path, tag) {
+exports.commitTagAndPush = async function(path, tag, actor) {
   const repo = git(path);
   const message = `Release ${tag}`;
   console.log(`Commit, tag, and push to release repo: ${message}`);
 
-  await repo.addConfig("user.email", "github@radiusnetworks.com");
-  await repo.addConfig("user.name", "RadBot");
-
+  await repo.addConfig("user.email", `${actor}@users.noreply.github.com`);
+  await repo.addConfig("user.name", "Release Repo Bot");
   await repo.add(['.']);
   await repo.commit(message);
   await repo.addTag(tag);

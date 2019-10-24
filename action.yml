@@ -13,6 +13,10 @@ inputs:
 outputs:
   url:
     description: 'URL to the Release HTML Page'
+  html_url:
+    description: 'URL to the Release HTML Page'
+  tag_name:
+    description: 'The tag name for the release'
 runs:
   using: 'node12'
   main: 'main.js'

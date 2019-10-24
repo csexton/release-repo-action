@@ -21,18 +21,17 @@ async function main() {
     return;
   }
 
-  var release = context.payload.release;
-
-
-  var [owner, repo] = target.split('/');
-  var tag_name = release.tag_name;
+  const actor = context.actor
+  const release = context.payload.release;
+  const [owner, repo] = target.split('/');
+  const tag_name = release.tag_name;
 
   await releaseRepo.clone(repoPath, target, personalToken)
   await releaseAsset.downloadAndExtract(assetFileName, release.assets, token, repoPath)
-  await releaseRepo.commitTagAndPush(repoPath, tag_name);
+  await releaseRepo.commitTagAndPush(repoPath, tag_name, context.actor);
 
   const octokitTarget = new GitHub(personalToken)
-  var response = await octokitTarget.repos.createRelease({
+  const response = await octokitTarget.repos.createRelease({
     owner: owner,
     repo: repo,
     body: release.body,
@@ -40,14 +39,10 @@ async function main() {
     tag_name: release.tag_name,
     prerelease: release.prerelease,
   });
-  console.log("* response *********************************************************************");
-  console.dir(response);
-  var newRelease = response.data
-
-  console.log("* new release ******************************************************************");
-  console.dir(newRelease);
+  const newRelease = response.data
   core.setOutput('html_url', newRelease.html_url);
   core.setOutput('url', newRelease.html_url);
+  core.setOutput('tag_name', tag_name);
 }
 
 main().catch(error.handle);
