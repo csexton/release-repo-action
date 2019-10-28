@@ -6,12 +6,11 @@ exports.clone = async function(path, repo, token) {
   await git('.').clone(repoURL, path, ['--depth=1'])
 }
 
-exports.prep(path, actor) {
+exports.prep = async function(path, actor) {
   const repo = git(path);
   await repo.addConfig("user.email", `${actor}@users.noreply.github.com`);
   await repo.addConfig("user.name", "Release Repo Bot");
 }
-
 
 exports.commitAndPush = async function(path, tag, branch) {
   const repo = git(path);

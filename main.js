@@ -34,7 +34,6 @@ async function main() {
   await releaseRepo.prep(repoPath, context.actor);
   await releaseRepo.commitTagAndPush(repoPath, tagName, branchName);
 
-
   if (tagAndRelease) {
     const octokitTarget = new GitHub(personalToken)
     const response = await octokitTarget.repos.createRelease({
