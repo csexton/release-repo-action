@@ -12,6 +12,7 @@ async function main() {
   const octokit = new GitHub(token)
   const assetFileName = core.getInput('file');
   const branchName = core.getInput('branch');
+  const tagAndRelease = core.getInput('tag-and-release');
   const repoPath = path.resolve('./release-repo');
 
   //var release = await octokit.repos.getReleaseByTag({ owner: "RadiusNetworks", repo: "iris-ios", tag: "sdk-v0.2" })
@@ -25,25 +26,29 @@ async function main() {
   const actor = context.actor
   const release = context.payload.release;
   const [owner, repo] = target.split('/');
-  const tag_name = release.tag_name;
+  const tagName = release.tag_name;
+  core.setOutput('tag_name', tagName);
 
   await releaseRepo.clone(repoPath, target, personalToken)
   await releaseAsset.downloadAndExtract(assetFileName, release.assets, token, repoPath)
-  await releaseRepo.commitTagAndPush(repoPath, tag_name, context.actor, branchName);
+  await releaseRepo.prep(repoPath, context.actor);
+  await releaseRepo.commitTagAndPush(repoPath, tagName, branchName);
 
-  const octokitTarget = new GitHub(personalToken)
-  const response = await octokitTarget.repos.createRelease({
-    owner: owner,
-    repo: repo,
-    body: release.body,
-    name: release.name,
-    tag_name: release.tag_name,
-    prerelease: release.prerelease,
-  });
-  const newRelease = response.data
-  core.setOutput('html_url', newRelease.html_url);
-  core.setOutput('url', newRelease.html_url);
-  core.setOutput('tag_name', tag_name);
+
+  if (tagAndRelease) {
+    const octokitTarget = new GitHub(personalToken)
+    const response = await octokitTarget.repos.createRelease({
+      owner: owner,
+      repo: repo,
+      body: release.body,
+      name: release.name,
+      tag_name: release.tag_name,
+      prerelease: release.prerelease,
+    });
+    const newRelease = response.data
+    core.setOutput('html_url', newRelease.html_url);
+    core.setOutput('url', newRelease.html_url);
+  }
 }
 
 main().catch(error.handle);

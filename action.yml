@@ -4,22 +4,22 @@ inputs:
   repo:
     description: The target external repo to publish to
     required: true
+  branch:
+    description: Optional name of the branch to push changes to, defaults to master
+    required: false
   file:
     description: The zip file to extract into the extract repo
     required: true
   personal-token:
     description: The GitHub token used access the external repo
     required: true
-  branch:
-    description: Optional name of the branch to push changes to, defaults to master
+  tag-and-release:
+    description: Boolean flag for if a release should be created on the target repo
     required: false
+    default: true
 outputs:
-  url:
-    description: 'URL to the Release HTML Page'
-  html_url:
-    description: 'URL to the Release HTML Page'
-  tag_name:
-    description: 'The tag name for the release'
+  branch_name:
+    description: 'The branch name for the release'
 runs:
   using: 'node12'
   main: 'main.js'
