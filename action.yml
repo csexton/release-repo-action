@@ -10,6 +10,9 @@ inputs:
   personal-token:
     description: The GitHub token used access the external repo
     required: true
+  branch:
+    description: Optional name of the branch to push changes to, defaults to master
+    required: false
 outputs:
   url:
     description: 'URL to the Release HTML Page'
