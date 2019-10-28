@@ -19,6 +19,6 @@ exports.commitTagAndPush = async function(path, tag, actor, branch) {
   await repo.add(['.']);
   await repo.commit(message);
   await repo.addTag(tag);
-  await repo.pushTags();
-  await repo.push();
+  await repo.pushTags("origin");
+  await repo.push("origin", "HEAD");
 }
