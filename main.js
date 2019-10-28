@@ -32,7 +32,7 @@ async function main() {
   await releaseRepo.clone(repoPath, target, personalToken)
   await releaseAsset.downloadAndExtract(assetFileName, release.assets, token, repoPath)
   await releaseRepo.prep(repoPath, context.actor);
-  await releaseRepo.commitTagAndPush(repoPath, tagName, branchName);
+  await releaseRepo.commitAndPush(repoPath, tagName, branchName);
 
   if (tagAndRelease) {
     const octokitTarget = new GitHub(personalToken)
