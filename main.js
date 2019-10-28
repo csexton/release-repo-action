@@ -12,7 +12,7 @@ async function main() {
   const octokit = new GitHub(token)
   const assetFileName = core.getInput('file');
   const branchName = core.getInput('branch');
-  const tagAndRelease = core.getInput('tag-and-release');
+  const tagAndRelease = core.getInput('tag-and-release', { required: false }) === 'true';
   const repoPath = path.resolve('./release-repo');
 
   //var release = await octokit.repos.getReleaseByTag({ owner: "RadiusNetworks", repo: "iris-ios", tag: "sdk-v0.2" })
