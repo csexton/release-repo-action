@@ -26,7 +26,7 @@ async function main() {
   const actor = context.actor
   const release = context.payload.release;
   const [owner, repo] = target.split('/');
-  const tagName = release.tag_name;
+  var tagName = release.tag_name;
   core.setOutput('tag_name', tagName);
   if (!tagAndRelease) {
     tagName = null;
