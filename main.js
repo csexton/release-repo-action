@@ -28,6 +28,9 @@ async function main() {
   const [owner, repo] = target.split('/');
   const tagName = release.tag_name;
   core.setOutput('tag_name', tagName);
+  if (!tagAndRelease) {
+    tagName = null;
+  }
 
   await releaseRepo.clone(repoPath, target, personalToken)
   await releaseAsset.downloadAndExtract(assetFileName, release.assets, token, repoPath)
