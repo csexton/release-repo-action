@@ -12,6 +12,7 @@ async function main() {
   const octokit = new GitHub(token)
   const assetFileName = core.getInput('file');
   const branchName = core.getInput('branch');
+  const tagInput = core.getInput('tag');
   const tagAndRelease = core.getInput('tag-and-release', { required: false }) === 'true';
   const repoPath = path.resolve('./release-repo');
 
@@ -27,6 +28,9 @@ async function main() {
   const release = context.payload.release;
   const [owner, repo] = target.split('/');
   var tagName = release.tag_name;
+  if (tagInput) {
+    tagName = tagInput.trim();
+  }
   core.setOutput('tag_name', tagName);
   if (!tagAndRelease) {
     tagName = null;
