@@ -15,6 +15,7 @@ async function main() {
   const tagInput = core.getInput('tag');
   const tagAndRelease = core.getInput('tag-and-release', { required: false }) === 'true';
   const clean = core.getInput('clean', { required: false }) === 'true';
+  const keep = core.getInput('keep');
   const repoPath = path.resolve('./release-repo');
 
   //var release = await octokit.repos.getReleaseByTag({ owner: "RadiusNetworks", repo: "iris-ios", tag: "sdk-v0.2" })
@@ -39,7 +40,7 @@ async function main() {
 
   await releaseRepo.clone(repoPath, target, personalToken)
   if (clean) {
-    releaseRepo.clean(repoPath);
+    releaseRepo.clean(repoPath, keep);
   }
   await releaseAsset.downloadAndExtract(assetFileName, release.assets, token, repoPath)
   await releaseRepo.prep(repoPath, context.actor);

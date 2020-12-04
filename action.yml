@@ -24,6 +24,9 @@ inputs:
     description: Cleans the release repo files before unzipping
     required: false
     default: false
+  keep:
+    description: A colon separated list of files to keep when cleaning the repo
+    required: false
 outputs:
   branch_name:
     description: 'The branch name for the release'

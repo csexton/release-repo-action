@@ -8,10 +8,17 @@ exports.clone = async function(repoPath, repo, token) {
   await git('.').clone(repoURL, repoPath, ['--depth=1'])
 }
 
-exports.clean = function(repoPath) {
-  let nonDotFiles = (file) => { return file[0] != "."; };
-  let existingFiles = fs.readdirSync(repoPath).filter(nonDotFiles);
-
+exports.clean = function(repoPath, keep) {
+  // keep is a colon seperated list files to keep
+  var keepFiles = [];
+  if (keep) {
+    keepFiles = keep.split(":").map((item) => item.trim());
+  }
+  let nonKeepers = (file) => !keepFiles.includes(file);
+  let nonDotFiles = (file) => (file[0] != ".");
+  let existingFiles = fs.readdirSync(repoPath)
+                        .filter(nonDotFiles)
+                        .filter(nonKeepers);
   for (let file of existingFiles) {
     fs.rmdirSync(path.join(repoPath, file), { recursive: true })
   }
