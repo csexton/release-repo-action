@@ -20,6 +20,10 @@ inputs:
   tag:
     description: A tag name to be used for the release. Defaults to the same tag as the current repo's release.
     required: false
+  clean:
+    description: Cleans the release repo files before unzipping
+    required: false
+    default: false
 outputs:
   branch_name:
     description: 'The branch name for the release'
