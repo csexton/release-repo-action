@@ -20,7 +20,7 @@ exports.clean = function(repoPath, keep) {
                         .filter(nonDotFiles)
                         .filter(nonKeepers);
   for (let file of existingFiles) {
-    fs.rmdirSync(path.join(repoPath, file), { recursive: true })
+    fs.rmSync(path.join(repoPath, file), { recursive: true })
   }
 }
 
